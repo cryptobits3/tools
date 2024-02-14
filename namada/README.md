@@ -79,11 +79,12 @@ sudo systemctl restart namadad && sudo journalctl -u namadad -f
 namada client epoch
 ~~~
 
+
 # Delegate stake
 
 ## Delegate tokens
 ~~~
-namadac bond --source $WALLET --validator $VAL_ADDRESS --amount 10 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
+namadac bond --source $WALLET --validator $VALIDATOR_ADDRESS --amount 10 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
 ~~~
 
 ## Wait for 3 epochs and check validator is in the consensus set
@@ -103,7 +104,7 @@ namada client validator-state --validator $VALIDATOR_ADDRESS
 
 ## Add stake
 ~~~
-namadac bond --source $WALLET --validator $VAL_ADDRESS --amount 10 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
+namadac bond --source $WALLET --validator $VALIDATOR_ADDRESS --amount 10 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
 ~~~
 
 ## Query the set of validators
@@ -113,7 +114,7 @@ namadac bonded-stake
 
 ## Unbond the tokens
 ~~~
-namada client unbond --source $WALLET --validator $VAL_ADDRESS --amount 1.5 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
+namada client unbond --source $WALLET --validator $VALIDATOR_ADDRESS --amount 1.5 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
 ~~~
 
 ## Wait for 6 epochs, then check when the unbonded tokens can be withdrawed
@@ -123,8 +124,24 @@ namadac bonds --owner $WALLET
 
 ## Withdraw the unbonded tokens
 ~~~
-namada client withdraw --source $WALLET --validator $VAL_ADDRESS --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
+namada client withdraw --source $WALLET --validator $VALIDATOR_ADDRESS --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
 ~~~
+
+## Redelegate
+~~~
+namadac redelegate --owner $WALLET --source-validator <source-validator> --destination-validator <destination-validator> --amount 10 --memo $MEMO
+~~~
+
+## Claim rewards
+~~~
+namadac claim-rewards --source $WALLET --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
+## Query the pending reward tokens without claiming
+~~~
+namadac rewards --source $WALLET --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
 
 # Multisign
 
@@ -203,6 +220,7 @@ namada client update-account --address ${WALLET}1-multisig --public-keys ${WALLE
 namada client init-account --alias ${WALLET}1-multisig --public-keys ${WALLET}2,${WALLET}3,${WALLET}4  --signing-keys $WALLET,${WALLET}1  --threshold 1 --memo $MEMO
 ~~~
 
+
 # MASP
 
 ## Randomly generate a new spending key:
@@ -244,6 +262,7 @@ namada client transfer  --source ${WALLET}-shielded --target ${WALLET}1-shielded
 ~~~
 namada client transfer --source ${WALLET}-shielded --target $WALLET --token NAAN --amount 5 --signing-keys <your-implicit-account-alias> --memo $MEMO
 ~~~
+
 
 # Validator Operatiions
 
@@ -327,6 +346,32 @@ namada client epoch
 namada client unjail-validator --validator $VALIDATOR_ADDRESS --node tcp://127.0.0.1:26657 --memo $MEMO
 ~~~
 
+## Change validator commission rate:
+~~~
+namadac change-commission-rate --validator $VALIDATOR_ADDRESS --commission-rate <commission-rate> --memo $MEMO
+~~~
+
+## Change consensus key:
+~~~
+namadac change-consensus-key --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
+## Change validator metadata:
+~~~
+namadac change-metadata --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
+## Deactivate validator:
+~~~
+namadac deactivate-validator --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
+## Reactivate validator:
+~~~
+namadac reactivate-validator --validator $VALIDATOR_ADDRESS --memo $MEMO
+~~~
+
+
 # Governance
 
 ## All proposals list:
@@ -336,8 +381,18 @@ namadac query-proposal
 
 ## Vote:
 ~~~
-namadac vote-proposal --proposal-id <PROPOSAL_ID> --vote yay --address $ADDRESS
+namadac vote-proposal --proposal-id <PROPOSAL_ID> --vote yay --address $ADDRESS --memo $MEMO
 ~~~
+
+## Voting for PGF proposals:
+~~~
+namada client vote-proposal \
+    --proposal-id <proposal-id-of-steward-proposal> \
+    --vote yay \
+    --signing-keys $WALLET \
+    --memo $MEMO
+~~~
+
 
 # Sync and Consensus
 ## Check logs:
@@ -363,50 +418,4 @@ curl -s localhost:12657/dump_consensus_state
 ## Your validator votes (prevote):
 ~~~
 curl -s http://localhost:26657/dump_consensus_state | jq '.result.round_state.votes[0].prevotes' | grep $(curl -s http://localhost:26657/status | jq -r '.result.validator_info.address[:12]')
-~~~
-
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
-~~~
-
-## 
-~~~
-
 ~~~
