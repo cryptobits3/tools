@@ -113,6 +113,11 @@ Query the set of validators
 namadac bonded-stake
 ~~~
 
+Check your user bonds:
+~~~
+namada client bonds --owner $WALLET --node tcp://namada-testnet-tcprpc.itrocket.net:33657
+~~~
+
 Unbond the tokens
 ~~~
 namada client unbond --source $WALLET --validator $VALIDATOR_ADDRESS --amount 1.5 --node tcp://namada-testnet-tcprpc.itrocket.net:33657 --memo $MEMO
@@ -226,12 +231,12 @@ namada client init-account --alias ${WALLET}1-multisig --public-keys ${WALLET}2,
 
 Randomly generate a new spending key:
 ~~~
-namada wallet gen --shielded --alias ${WALLET}-shielded --memo $MEMO
+namada wallet gen --shielded --alias ${WALLET}-shielded
 ~~~
 
 Create a new payment address:
 ~~~
-namada wallet gen-payment-addr --key ${WALLET}-shielded --alias ${WALLET}-shielded-addr --memo $MEMO
+namada wallet gen-payment-addr --key ${WALLET}-shielded --alias ${WALLET}-shielded-addr
 ~~~
 
 Send a shielding transfer:
