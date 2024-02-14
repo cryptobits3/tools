@@ -145,7 +145,7 @@ namadac claim-rewards --source $WALLET --validator $VALIDATOR_ADDRESS --memo $ME
 
 Query the pending reward tokens without claiming
 ~~~
-namadac rewards --source $WALLET --validator $VALIDATOR_ADDRESS --memo $MEMO
+namadac rewards --source $WALLET --validator $VALIDATOR_ADDRESS
 ~~~
 
 
