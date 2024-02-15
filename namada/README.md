@@ -251,7 +251,7 @@ namada client balance --owner ${WALLET}-shielded
 
 Generate another spending key:
 ~~~
-namada wallet gen --shielded --alias ${WALLET}1-shielded --memo $MEMO
+namada wallet gen --shielded --alias ${WALLET}1-shielded
 ~~~
 
 Create a payment address:
