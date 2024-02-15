@@ -385,6 +385,11 @@ All proposals list:
 namadac query-proposal
 ~~~
 
+Edit proposal
+~~~
+namadac query-proposal --proposal-id <PROPOSAL_ID>
+~~~
+
 Vote:
 ~~~
 namadac vote-proposal --proposal-id <PROPOSAL_ID> --vote yay --address $ADDRESS --memo $MEMO
