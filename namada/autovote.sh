@@ -2,8 +2,6 @@
 
 # Saving wallet address
 WALLET_ADDRESS=$(namadaw find --alias $WALLET | grep "Implicit" | awk '{print $3}') 
-echo "export WALLET_ADDRESS="$WALLET_ADDRESS"" >> $HOME/.bash_profile 
-source $HOME/.bash_profile
 
 # Writing the output
 prop_list=$(namadac query-proposal)
