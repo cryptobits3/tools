@@ -11,11 +11,10 @@ id=$(echo "$prop_list" | grep -oP 'id: \K\d+')
 
 # Extract proposals and process each one
 while read -r line; do
-    echo $line
     if [[ $line =~ "Proposal Id: " ]]; then
         # Extract proposal ID
         prop_id=$(echo "$line" | grep -oP 'Proposal Id: \K\d+')
-        echo $prop_id
+        
         # Extract Start Epoch
         start_epoch=$(echo "$line" | grep -oP 'Start Epoch: \K\d+')
 
